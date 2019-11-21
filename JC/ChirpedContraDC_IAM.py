@@ -244,11 +244,11 @@ class ChirpedContraDC():
 
 		self.TransferMatrix = LeftRightTransferMatrix
 
-	def createRandomCDC(self, bounds_a=[0, 10], bounds_N=[100, 10000], bounds_lambda_B = [1525e-9, 1575e-9], plot=False):
+	def createRandomCDC(self, bounds_kappa = [0, 48e3], bounds_a=[0, 10], bounds_N=[100, 5000], bounds_lambda_B = [1525e-9, 1575e-9], plot=False):
 
 		a = random.uniform(bounds_a[0], bounds_a[-1])
 		self.a = np.round(a, 1)
-		
+		self.kappa_max = random.uniform(bounds_kappa[0], bounds_kappa[-1])
 		self.N = np.random.randint(bounds_N[0], bounds_N[-1])
 
 		lambda_B_0 = random.uniform(bounds_lambda_B[0], bounds_lambda_B[-1])
@@ -277,11 +277,11 @@ class ChirpedContraDC():
 		fileName = "Data/Dataset_v0.txt"
 		writeHead = not os.path.exists(fileName)
 		with open(fileName,"a") as file:
-			header = "a (float), N (int), apodization (1 X 101), period (1 X 101), real(E_drop) (1 X 1001), imag(E_drop) (1 X 1001), real(E_thru) (1 X 1001), imag(E_thru) (1 X 1001)"
+			header = "a (float), N (int), kappa (float), apodization (1 X 101), period (1 X 101), real(E_drop) (1 X 1001), imag(E_drop) (1 X 1001), real(E_thru) (1 X 1001), imag(E_thru) (1 X 1001)"
 			if writeHead:
 				file.write(header + "\n")
 
-			data = np.array([self.a, self.N])
+			data = np.array([self.a, self.N, self.kappa_max])
 			data = np.append(data, self.apod_profile)
 			data = np.append(data, self.period_profile)
 			data = np.append(data, np.real(self.E_drop))
@@ -304,7 +304,7 @@ class ChirpedContraDC():
 			self.createRandomCDC()
 			self.simulate(bar=False)
 			self.writeToFile()
-			
+
 			if bar:
 				clc()
 				print("Creation du jeu de données...")
