@@ -272,12 +272,12 @@ class ChirpedContraDC():
 		self.propagate(bar)
 
 
-	def writeToFile(self):
+	def writeToFile(self, fileName = "Data/Dataset_v0.txt"):
 		self.getPerformance()
-		fileName = "Data/Dataset_v0.txt"
+		# fileName = "Data/Dataset_v0.txt"
 		writeHead = not os.path.exists(fileName)
 		with open(fileName,"a") as file:
-			header = "a (float), N (int), kappa (float), apodization (1 X 101), period (1 X 101), real(E_drop) (1 X 1001), imag(E_drop) (1 X 1001), real(E_thru) (1 X 1001), imag(E_thru) (1 X 1001)"
+			header = "a (float), N (int), kappa (float), apodization (1 X 101), period (1 X 101), real(E_drop) (1 X 1001), imag(E_drop) (1 X 1001)"
 			if writeHead:
 				file.write(header + "\n")
 
@@ -286,8 +286,8 @@ class ChirpedContraDC():
 			data = np.append(data, self.period_profile)
 			data = np.append(data, np.real(self.E_drop))
 			data = np.append(data, np.imag(self.E_drop))
-			data = np.append(data, np.real(self.E_thru))
-			data = np.append(data, np.imag(self.E_thru))
+			# data = np.append(data, np.real(self.E_thru))
+			# data = np.append(data, np.imag(self.E_thru))
 			data = np.reshape(data, (1, -1))		
 
 			np.savetxt(file, data)
