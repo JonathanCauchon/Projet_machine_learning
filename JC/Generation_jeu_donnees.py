@@ -20,17 +20,17 @@ from ChirpedContraDC_IAM import ChirpedContraDC
 # d.displayResults()
 # d.writeToFile(fileName="Data/Dataset_test.txt")
 
-me = np.loadtxt("Data/Dataset_test.txt", skiprows=1)
+me = np.loadtxt("Data/Dataset_v0.txt", skiprows=4)
 print(me.shape)
 
-jo = np.loadtxt("Data/ex1.txt", skiprows=1)
-jo = np.delete(jo, 3)
-print(jo.shape)
+# jo = np.loadtxt("Data/ex1.txt", skiprows=1)
+# jo = np.delete(jo, 3)
+# print(jo.shape)
 
-print(abs(me - jo))
+# print(abs(me - jo))
 
-plt.plot(abs(me - jo))
+# plt.plot(abs(me - jo))
 
-plt.title("Toi - moi")
-plt.show()
+# plt.title("Toi - moi")
+# plt.show()
 
