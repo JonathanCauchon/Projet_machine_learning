@@ -136,7 +136,7 @@ pd.set_option('display.width',40)
 
 FIC_DONNEES_JC0 = '../jc/donnees/Dataset_v0.txt'
 FIC_DONNEES_JC1 = '../jc/donnees/Dataset_v1.txt'
-DIR_DONNEES_JSY = '../jsy/donnees'
+DIR_DONNEES_JSY = '../JSY/cdcSimuData'
 EXT_DONNEES_JSY = '.txt'
 FIC_DONNEES_PKL = 'donneesRemachees.pickle'
 
@@ -185,7 +185,13 @@ Dictionnaire aidant au chargement des données étiquettées.
 L'ordre des attributs est assuré par l'emploi de clés numériques.
 """
 # FIXME: vérifier les unités
+#	'period' en unités de m
 # FIXME: vérifier les descriptions des attributs
+
+# JC: 
+#	- 'kappa' définit complètement l'apodisation, 'a' est redondant mais un métadata,
+#		'apodization' est redondant et pas nécessairement utile
+
 dicoDesAttributs = {
 		0:{
 			 'symbole':'a',
@@ -213,7 +219,7 @@ dicoDesAttributs = {
 		  },
 		2:{
 			 'symbole':'kappa',
-			 'unites':'1/m',
+			 'unites':'1/mm',
 			 'description':
 				 "Valeur maximale de l'enveloppe de la gaussienne qui "
 				 "module le profil d'accentuation des "
@@ -245,7 +251,7 @@ dicoDesAttributs = {
 		  },
 		5:{
 			 'symbole':'period',
-			 'unites':'1/m',
+			 'unites':'m',
 			 'description':
 				 "Période [moyenne?] des franges du réseau "
 				 "discrétisée à chaque extrémité des blocs d'analyse "
@@ -755,6 +761,6 @@ fig.suptitle('Affichage de quatre données aléatoires\n'\
 			 '(i,y)=(indice,étiquettes)')
 
 
-
+pyplot.show()
 # -----------------------------------------------------------------------------
 # EOF
