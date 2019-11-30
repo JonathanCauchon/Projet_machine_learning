@@ -96,127 +96,110 @@ Références
 
 
 =========
-Questions
+NOTES
 =========
 
-???: Quel-est le champ en entrée (port *input*) qui cause le champ E_drop
-	en sortie (port *drop*)? Il devrait être le même pour toutes les données,
-	mais quel est-il?
-
-???: Quelle-est la longueur d'onde centrale du champ d'entrée -- la
-	même que le port *through* : était-ce 1550 nm ?
-
-???: Est-ce que lambdaB est la longueur d'onde centrale du port *drop*?
-	Est-ce qu'elle correspond à $\lambda_D$ dans l'article de Wei Shi [2]
-	et dans le mémoire de Jonathan St-Yves [1]? Si oui, faudrait peut-être
-	la renommer ainsi; sinon, pourquoi l'indice "B"?
-
-???: Est-ce que la période donnée à chaque extrémité des blocs d'analyse
-	de la méthode par matrice de transfert correspond à une moyenne
-	locale de la période à cette position? Sinon, à quoi correspond-elle?
-
-???: Est-ce une bonne idée de convertir les valeurs de "N" en int?
-	Ne serait-il pas plus naturel de les laisser en float (REELPOS)?
-	Je pense qu'il vaut mieux le forcer en int pour être en mesure de
-	facilement le feeder à scikit-learn, tensorflow ou autre, quitte
-	à le reconvertir en float pour les np.array --> tensor de pytorch.
 
 
 
+D'après la partie "III. Jeu de données" rédigée par Jonathan St-Yves
+dans la proposition de projet, il conviendrait d'effectuer le
+remodellage des données d'entrée pour en faire un échantillonnage
 
-	# ----------
-	#
-	# D'après la partie "III. Jeu de données" rédigée par Jonathan St-Yves
-	# dans la proposition de projet, il conviendrait d'effectuer le
-	# remodellage des données d'entrée pour en faire un échantillonnage
-	#
-	#	de t = 1..nbTotalDonnees dont les étiquettes sont
-	#
-	#	         r^t = [ a , N , kappa , lambdaB ]
-	#
-	# et dont les données sont
-	#
-	# . soit basées sur le champ électrique mesuré en sortie du port *drop*
-	#
-	#	    $\mathcal{X}_E$ = ( x_E^t, r^t )
-	#
-	#	         avec
-	#
-	# 	         x_E^t = [ real(E_drop) , imag(E_drop) ]
-	#
-	#            note: |x_E^t| = 2*(1+NB_LAMBDAS) composantes
-	#
-	#
-	#
-	# . soit basées sur les paramètres géométriques du réseau
-	#
-	#	    $\mathcal{X}_G$ = ( x_G^t, r^t )
-	#
-	#	        avec
-	#
-	#	        x_G^t = [ apodization , period ]
-	#
-	#	        note: |x_G^t| = 2*(1+NB_BLOCS) composantes
-	#
-	#
-	# ----------
-	#
-    # Peut être sera-t-il nécessaire de combiner les deux selon
-	#
-	#	    $\mathcal{X}$ = ( x^t, r^t )
-	#
-	#	        avec
-	#
-	#	        x^t = [ apodization , period , real(E_drop) , imag(E_drop) ]
-	#
-	#	        note: |x^t| = 2*(2+NB_BLOCS+NB_LAMBDAS) composantes
-	#
-	#
-	# ----------
-	#
-    # Un échantillonnage possible serait aussi E_drop complexe
-	# ----------
-	#
-	# Hammond [3]
-	#
-	# vérifier la soit-disant "compression" qu'il effectue
-	# au Chapitre 3, en particulier à la section 3.2.1
-	#
-	# Figure 4.3: c'est exactement ce qu'on fait ici
-	#
-	#
+	de t = 1..nbTotalDonnees dont les étiquettes sont
+
+	         r^t = [ a , N , kappa , lambdaB ]
+
+et dont les données sont
+
+.soit basées sur le champ électrique mesuré en sortie du port *drop*
+
+	$\mathcal{X}_E$ = ( x_E^t, r^t )
+
+avec
+
+	x_E^t = [ real(E_drop) , imag(E_drop) ]
+
+note: |x_E^t| = 2*(1+NB_LAMBDAS) composantes
 
 
 
-# Lorsque
-#
-#	type(X) == complex
-#
-# alors
-#
-# 	torch.from_numpy(X)
-#
-# chiâle:
-#
-# TypeError: can't convert np.ndarray of type numpy.complex128.
-# The only supported types are:
-# 	float64, float32, float16,
-# 	int64, int32, int16, int8,
-# 	uint8, and bool.
-#
-# une solution serait peut-être d'utiliser des packages tel
-#
-# 	http://wavefrontshaping.net/index.php/component/content/article
-#	      /69-community/tutorials/others
-#         /157-complex-valued-networks-with-pytorch-for-physics-applications
-#
-# ou bien
-#
-#	https://github.com/williamFalcon/pytorch-complex-tensor
-#
-# note:
-# sinon, peut-etre vaudra-t-il mieux séparer complèterment la
-# partie réelle de la partie imaginaire ???
+.soit basées sur les paramètres géométriques du réseau
+
+	$\mathcal{X}_G$ = ( x_G^t, r^t )
+
+avec
+
+	x_G^t = [ apodization , period ]
+
+note: |x_G^t| = 2*(1+NB_BLOCS) composantes
+
+
+----------
+
+Peut être sera-t-il nécessaire de combiner les deux selon
+
+	$\mathcal{X}$ = ( x^t, r^t )
+
+avec
+
+	x^t = [ apodization , period , real(E_drop) , imag(E_drop) ]
+
+note: |x^t| = 2*(2+NB_BLOCS+NB_LAMBDAS) composantes
+
+----------
+
+Un échantillonnage possible serait aussi E_drop complexe
+
+----------
+
+Hammond [3]
+
+	vérifier la soit-disant "compression" qu'il effectue
+	au Chapitre 3, en particulier à la section 3.2.1
+
+	Figure 4.3: c'est exactement ce qu'on fait ici
+
+
+
+
+
+
+
+=========
+REMARQUES
+=========
+
+ Lorsque
+
+	type(X) == complex
+
+ alors
+
+ 	torch.from_numpy(X)
+
+ chiâle:
+
+ TypeError: can't convert np.ndarray of type numpy.complex128.
+ The only supported types are:
+ 	float64, float32, float16,
+ 	int64, int32, int16, int8,
+ 	uint8, and bool.
+
+??? une solution serait peut-être d'utiliser des packages tel
+
+ 	http://wavefrontshaping.net/index.php/component/content/article
+	      /69-community/tutorials/others
+         /157-complex-valued-networks-with-pytorch-for-physics-applications
+
+ ou bien
+
+	https://github.com/williamFalcon/pytorch-complex-tensor
+
+
+
+??? peut-etre vaudra-t-il mieux séparer complètement la
+ partie réelle de la partie imaginaire
 
 
 """
