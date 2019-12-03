@@ -222,7 +222,7 @@ import pickle        # dump, load, HIGHEST_PROTOCOL
 
 import numpy         # arange, array, reshape, ndim, append,
                      # all, sort, astype, random.randint
-
+import torch.utils.data
 import torch         # from_numpy, save, load, eq, all,
                      # utils.data.{Dataset, DataLoader}
 
